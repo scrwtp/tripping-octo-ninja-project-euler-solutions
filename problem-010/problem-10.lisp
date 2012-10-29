@@ -60,11 +60,8 @@ Find the sum of all the primes below two million.
        (array (make-array array-length :initial-contents (mapcar (lambda (x) (list x nil)) (range-inclusive 5 limit)))))
     (sieve->list (sieve-candidates (fill-candidates array limit) limit))))
 	
-(defun problem-7 (position limit)
+(defun problem-10 (limit)
   (let ((sieve (sieve-of-atkin limit)))
-    (cond 
-      ((>= (length sieve) (- position 1)) (elt sieve (- position 1)))
-      (t (print "larger sieve required") ; 
-	 (print (length sieve))))))
+    (reduce #'+ sieve)))
 		 
-(problem-7 10001 200000)
+(problem-10 2000000)
