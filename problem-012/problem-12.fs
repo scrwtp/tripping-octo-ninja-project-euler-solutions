@@ -17,32 +17,30 @@
 
 module Problem12
 
+module Problem12
+
 let triangle n =
-    let rec inner n acc = 
-        match n with
-            | 0 -> acc
-            | _ -> inner (n-1) (acc+n)
-    in inner n 0
+    [0..n] 
+    |> List.sum
 
 let divisors n =
-    let rec inner curr n lst =
-        if curr > (float >> sqrt >> int) n then
-            lst |> Seq.distinct |> Seq.sort |> Seq.toList
-        else 
-            match n % curr with
-                | 0 -> inner (curr+1) n (curr :: (n/curr) :: lst)
-                | _ -> inner (curr+1) n lst
-    in inner 1 n []
+    let upperBound = (float >> sqrt >> ceil >> int) n
+    [1..upperBound]
+    |> List.filter (fun x -> n % x = 0)
+    |> List.collect (fun x -> [x; n/x])
+    |> Seq.distinct 
+    |> Seq.sort 
+    |> Seq.toList
 
-let triangleWithDivisors count = 
-    let rec inner n count = 
-        let len = (divisors (triangle n)).Length in
-            if len >= count then 
-                triangle n
-            else 
-                inner (n+1) count
+let triangleWithDivisors count =
+    let rec inner n count =
+        let tri = triangle n
+        let len = (tri |> divisors).Length
+        match len with
+            | _ when len >= count -> tri
+            | _ -> inner (n+1) count
     in inner 1 count
-
+            
 let problem12 =
     triangleWithDivisors 500
 
