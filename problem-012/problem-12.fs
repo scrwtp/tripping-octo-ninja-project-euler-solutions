@@ -17,8 +17,6 @@
 
 module Problem12
 
-module Problem12
-
 let triangle n =
     [0..n] 
     |> List.sum
